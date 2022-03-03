@@ -12,30 +12,46 @@
 <body>
   <div id="root"></div>
   <script type="text/babel">
-    
-    class Names extends React.Component {
-      render() {
-        const showNames = true
-        const names = ['Arek', 'Tomek', 'Piotrek']
-        const nameList = names.map(name => <li>{name}</li>)
 
-        return (
-          <div>
-            {showNames ? <ul>{nameList}</ul> : null}
-          </div>
-        )
-      }
+    const Names = props => {
+      const names = ['Arek', 'Tomek', 'Piotrek']
+      const nameList = names.map(name => <li key={name}>{name}</li>)
+
+      return (
+        <div>
+          {props.test ? <ul>{nameList}</ul> : 'Brak Imion'}
+        </div>
+      )
     }
 
     class Headline extends React.Component {
+      state = {
+        title: 'ReactJS',
+        showNames: true
+      }
+
+      toogleNames() {
+        this.setState({
+          showNames: !this.state.showNames
+        })
+      }
+
       render() {
         const title = 'Hello ReactJS !!!'
+        const changeTitle = () => {
+          console.log('change title :)')
+          this.setState({
+            title: 'Hello'
+          })
+        }
 
         return (
           <div>
-            <h1>{title}</h1>
+            <h1>{this.state.title}</h1>
             <p>Lorem ipsum...</p>
-            <Names />
+            <Names test={this.state.showNames}/>
+            <button onClick={() => this.toogleNames()}>Hide list</button>
+            <button onClick={changeTitle}>Change title</button>
           </div>
         )
       }
